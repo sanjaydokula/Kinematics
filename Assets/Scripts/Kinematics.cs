@@ -19,13 +19,16 @@ public class Kinematics : MonoBehaviour
     float phase = Mathf.PI;
     public Color c1 = Color.yellow;
     public Color c2 = Color.red;
+    float t = 0;
     void Start()
     {
-        Segment seg1 = new Segment(new Vector3(0f, 0f, 0f), 0.0f, 4.0f, "seg1");
+        Segment seg1 = new Segment(new Vector3(0f, 0f, 0f), 90.0f, .6f,t, "seg1");
         Segment segp = seg1;
-        for(int i = 0; i < 40; i++)
+        segs.Add(segp);
+        for(int i = 1; i < 40; i++)
         {
-            Segment seg = new Segment(segp, 0, 2, "seg");
+            t = .1f;
+            Segment seg = new Segment(segp, 0, .6f,t, "seg");
             segs.Add(seg);
             segp = seg;
         }
@@ -88,13 +91,16 @@ public class Kinematics : MonoBehaviour
         }
         //Debug.Log("exiting updatePoints-main");
     }
+    float tt=0.2f;
     // Update is called once per frame
     void FixedUpdate()
     {
         //Debug.Log("update");
-        for (int i = 0; i < segs.Count; i++)
+        for (int i = 1; i < segs.Count; i++)
         {
-            segs[i].rotate(Mathf.Sin(i+phase*Time.time) * angleInc1);
+            segs[i].rotate(tt*Time.deltaTime);
+            tt += 0.1f;
+            
         }
         updatePoints();
         go.GetComponent<LineRenderer>().SetPositions(setPoints(segs));

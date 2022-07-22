@@ -12,17 +12,19 @@ public class Segment
     float seg_length;
     public string name;
     Segment parent_seg = null;
-    public Segment(Vector3 a, float angle, float seg_length, string name)
+    float t;
+    public Segment(Vector3 a, float angle, float seg_length,float t, string name)
     {
         this.a = a;
         this.angle = angle;
         this.local_angle = this.angle;
         this.seg_length = seg_length;
         this.name = name;
+        this.t = t;
         this.b = calculateB();
     }
 
-    public Segment(Segment seg, float angle, float seg_length, string name)
+    public Segment(Segment seg, float angle, float seg_length,float t, string name)
     {
         this.a = seg.B;
         this.seg_length = seg_length;
@@ -30,6 +32,7 @@ public class Segment
         this.angle = angle;
         this.local_angle = this.angle;
         this.name = name;
+        this.t = t;
         this.b = calculateB();
         //Debug.Log(this.name + "parent_seg" + parent_seg);
     }
@@ -65,6 +68,10 @@ public class Segment
 
     public void rotate(float angle)
     {
-        this.local_angle += angle;
+        Debug.Log(Mathf.Sin(angle));
+        this.local_angle += Mathf.Sin(this.t+angle);
+        this.local_angle = Mathf.InverseLerp(-8 * Mathf.PI, 8 * Mathf.PI, this.local_angle);
+        this.local_angle = Mathf.Lerp(-6 * Mathf.PI, 6 * Mathf.PI, this.local_angle);
+
     }
 }
